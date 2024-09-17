@@ -5,7 +5,7 @@ import pandas as pd
 app = FastAPI()
 
 # Cargar el dataset (supone que lo has procesado previamente)
-df = pd.read_csv('peliculas_procesadas.csv')
+df = pd.read_csv('./data/ReadytoETA.csv')
 
 @app.get("/")
 def root():
