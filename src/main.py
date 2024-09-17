@@ -1,12 +1,23 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import pandas as pd
+from contextlib import asynccontextmanager
 
-# Crear la app FastAPI
+# Create FastAPI instance
 app = FastAPI()
 
-# Cargar el dataset (supone que lo has procesado previamente)
-df = pd.read_csv('./data/ReadytoETA.csv')
+# Lifespan context manager for loading the dataset
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global df
+    df = pd.read_csv('./data/ReadytoETA.csv')
+    df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')  # Ensure release_date is in datetime format
+    
+    # Start the app
+    yield
+    # Here you could place cleanup code, if necessary
 
+app = FastAPI(lifespan=lifespan)
+# Root endpoint
 @app.get("/")
 def root():
     return {"message": "Bienvenido a la API de Películas"}
@@ -25,7 +36,7 @@ def cantidad_filmaciones_mes(mes: str):
         cantidad = df[df['release_date'].dt.month == mes_num].shape[0]
         return {"mensaje": f"{cantidad} películas fueron estrenadas en el mes de {mes}"}
     else:
-        return {"mensaje": "Mes no válido"}
+        raise HTTPException(status_code=400, detail="Mes no válido")
 
 # 2. Cantidad de filmaciones por día
 @app.get("/cantidad_filmaciones_dia/{dia}")
@@ -40,7 +51,7 @@ def cantidad_filmaciones_dia(dia: str):
         cantidad = df[df['release_date'].dt.weekday == dia_num].shape[0]
         return {"mensaje": f"{cantidad} películas fueron estrenadas en los días {dia}"}
     else:
-        return {"mensaje": "Día no válido"}
+        raise HTTPException(status_code=400, detail="Día no válido")
 
 # 3. Score por título
 @app.get("/score_titulo/{titulo}")
@@ -52,7 +63,7 @@ def score_titulo(titulo: str):
             "mensaje": f"La película {titulo} fue estrenada en el año {int(pelicula['release_year'].values[0])} con un score de {pelicula['vote_average'].values[0]}"
         }
     else:
-        return {"mensaje": f"No se encontró la película {titulo}"}
+        raise HTTPException(status_code=404, detail=f"No se encontró la película {titulo}")
 
 # 4. Votos por título
 @app.get("/votos_titulo/{titulo}")
@@ -70,7 +81,7 @@ def votos_titulo(titulo: str):
         else:
             return {"mensaje": "La película no tiene al menos 2000 valoraciones."}
     else:
-        return {"mensaje": f"No se encontró la película {titulo}"}
+        raise HTTPException(status_code=404, detail=f"No se encontró la película {titulo}")
 
 # 5. Obtener información de un actor
 @app.get("/get_actor/{nombre_actor}")
@@ -86,7 +97,7 @@ def get_actor(nombre_actor: str):
             "mensaje": f"El actor {nombre_actor} ha participado en {cantidad_peliculas} películas, con un retorno total de {retorno_total:.2f} y un retorno promedio de {retorno_promedio:.2f}."
         }
     else:
-        return {"mensaje": f"No se encontraron películas para el actor {nombre_actor}"}
+        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el actor {nombre_actor}")
 
 # 6. Obtener información de un director
 @app.get("/get_director/{nombre_director}")
@@ -116,4 +127,4 @@ def get_director(nombre_director: str):
             "peliculas": peliculas
         }
     else:
-        return {"mensaje": f"No se encontraron películas para el director {nombre_director}"}
+        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el director {nombre_director}")
