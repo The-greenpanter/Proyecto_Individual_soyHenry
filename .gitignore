@@ -2,3 +2,6 @@ Movies
 /PI-venv
 personas.csv
 /RawData
+.DS_store
+.gitignore
+notas.md
