@@ -9,7 +9,7 @@ app = FastAPI()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global df
-    df = pd.read_csv('../data/ReadytoETA.csv')
+    df = pd.read_csv('./data/ReadytoETA.csv')
     df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')  # Ensure release_date is in datetime format
     
     # Start the app
