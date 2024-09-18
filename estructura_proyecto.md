@@ -1,17 +1,30 @@
 .
-├── ETL.ipynb
+├── PI-venv
+│   ├── bin
+│   ├── etc
+│   ├── include
+│   ├── lib
+│   ├── pyvenv.cfg
+│   └── share
 ├── README.md
-├── ReadytoETA.csv
+├── RawData
+│   ├── Movies
+│   └── fe-ct-pimlops2-main
 ├── data
 │   └── ReadytoETA.csv
 ├── estructura_proyecto.md
 ├── notas.md
 ├── notebooks
 │   ├── EDA-Movies.ipynb
-│   └── ETL.ipynb
-├── personas.csv
+│   ├── ETL.ipynb
+│   └── modeloDerecomendacion.ipynb
+├── reports
+│   ├── export_model.py
+│   ├── recommendation_model.pkl
+│   └── reports
 ├── requirements.txt
 └── src
+    ├── __pycache__
     └── main.py
 
-13 directories, 12 files
+16 directories, 12 files
