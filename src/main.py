@@ -106,33 +106,21 @@ def votos_titulo(titulo: str):
     else:
         raise HTTPException(status_code=404, detail=f"No se encontró la película {titulo}")
 
-# 5. Obtener información de un actor
-@app.get("/get_actor/{nombre_actor}")
-def get_actor(nombre_actor: str):
-    peliculas_actor = df[df['cast'].str.contains(nombre_actor, case=False, na=False)]
+# 5. Obtener información de una compañía productora
+@app.get("/get_compania/{nombre_compania}")
+def get_compania(nombre_compania: str):
+    peliculas_compania = df[df['production_companies'].str.contains(nombre_compania, case=False, na=False)]
     
-    if not peliculas_actor.empty:
-        cantidad_peliculas = peliculas_actor.shape[0]
-        retorno_total = peliculas_actor['return'].sum()
-        retorno_promedio = peliculas_actor['return'].mean()
+    if not peliculas_compania.empty:
+        cantidad_peliculas = peliculas_compania.shape[0]
+        retorno_total = peliculas_compania['revenue'].sum()
+        retorno_promedio = peliculas_compania['revenue'].mean()
         return {
-            "mensaje": f"El actor {nombre_actor} ha participado en {cantidad_peliculas} películas, con un retorno total de {retorno_total:.2f} y un retorno promedio de {retorno_promedio:.2f}."
+            "mensaje": f"La compañía {nombre_compania} ha producido {cantidad_peliculas} películas, con un ingreso total de {retorno_total:.2f} y un ingreso promedio de {retorno_promedio:.2f}."
         }
     else:
-        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el actor {nombre_actor}")
+        raise HTTPException(status_code=404, detail=f"No se encontraron películas para la compañía {nombre_compania}")
 
-# 6. Obtener información de un director
-@app.get("/get_director/{nombre_director}")
-def get_director(nombre_director: str):
-    peliculas_director = df[df['director'].str.contains(nombre_director, case=False, na=False)]
-    
-    if not peliculas_director.empty:
-        peliculas = peliculas_director[['title', 'release_date', 'return']].to_dict(orient='records')
-        return {
-            "peliculas": peliculas
-        }
-    else:
-        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el director {nombre_director}")
 
 # ------------------------------------------------------------
 # Endpoints con sistema de recomendación usando modelo KNN
@@ -151,26 +139,25 @@ def recomendar_titulo(titulo: str):
     else:
         raise HTTPException(status_code=404, detail=f"No se encontró la película {titulo}")
 
-# 2. Recomendaciones para un actor
-@app.get("/recomendar_actor/{nombre_actor}")
-def recomendar_actor(nombre_actor: str):
-    peliculas_actor = df[df['cast'].str.contains(nombre_actor, case=False, na=False)]
+# 2. Recomendaciones por compañía productora
+@app.get("/recomendar_produccion/{nombre_compania}")
+def recomendar_produccion(nombre_compania: str):
+    peliculas_compania = df[df['production_companies'].str.contains(nombre_compania, case=False, na=False)]
     
-    if not peliculas_actor.empty:
-        pelicula_id = peliculas_actor.index[0]  # Tomamos la primera película del actor
+    if not peliculas_compania.empty:
+        pelicula_id = peliculas_compania.index[0]  # Tomamos la primera película
         recomendaciones = obtener_recomendaciones_por_pelicula(pelicula_id)
         return {"recomendaciones": recomendaciones}
     else:
-        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el actor {nombre_actor}")
-
-# 3. Recomendaciones para un director
-@app.get("/recomendar_director/{nombre_director}")
-def recomendar_director(nombre_director: str):
-    peliculas_director = df[df['director'].str.contains(nombre_director, case=False, na=False)]
+        raise HTTPException(status_code=404, detail=f"No se encontraron películas para la compañía {nombre_compania}")
+# 3. Recomendaciones por fecha de lanzamiento
+@app.get("/recomendar_fecha/{fecha}")
+def recomendar_fecha(fecha: str):
+    peliculas_fecha = df[df['release_date'] == fecha]
     
-    if not peliculas_director.empty:
-        pelicula_id = peliculas_director.index[0]  # Tomamos la primera película del director
+    if not peliculas_fecha.empty:
+        pelicula_id = peliculas_fecha.index[0]  # Tomamos la primera película
         recomendaciones = obtener_recomendaciones_por_pelicula(pelicula_id)
         return {"recomendaciones": recomendaciones}
     else:
-        raise HTTPException(status_code=404, detail=f"No se encontraron películas para el director {nombre_director}")
+        raise HTTPException(status_code=404, detail=f"No se encontraron películas para la fecha {fecha}")
