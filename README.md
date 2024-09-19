@@ -3,8 +3,10 @@
 
 ## Video
 
-[![Proyecto Individual Henry Explicacion]]([https://youtu.be/CxHV2zSoNKE])
+[![VExplicacion del proyecto](https://img.youtube.com/vi/CxHV2zSoNKE/0.jpg)](https://www.youtube.com/watch?v=CxHV2zSoNKE)
 
+## Deploy render
+[Ver el deploy en Render](https://proyecto-individual-soyhenry.onrender.com/docs)
 
 Este proyecto consiste en la creación de un sistema de recomendación de películas, utilizando FastAPI para crear una API que permita realizar consultas sobre datos de películas, transformarlos y preparar el sistema para recomendaciones basadas en machine learning.
 
