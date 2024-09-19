@@ -1,6 +1,11 @@
 # Proyecto Individual
 ## Sistema de Recomendación de Películas 🎬
 
+## Video
+
+[![Proyecto Individual Henry Explicacion]]([https://youtu.be/CxHV2zSoNKE])
+
+
 Este proyecto consiste en la creación de un sistema de recomendación de películas, utilizando FastAPI para crear una API que permita realizar consultas sobre datos de películas, transformarlos y preparar el sistema para recomendaciones basadas en machine learning.
 
 ### Tabla de Contenidos
