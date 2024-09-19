@@ -23,7 +23,7 @@ app = FastAPI()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global df, model_knn, features_imputed
-    df = pd.read_csv('data/ReadytoETA.csv', dtype={'nombre_columna': 'object'}, low_memory=False)
+    df = pd.read_csv('./data/ReadytoETA.csv', dtype={'nombre_columna': 'object'}, low_memory=False)
     df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')  # Asegurar que release_date esté en formato datetime
     
     # Cargar el modelo KNN (o el que estés usando)
