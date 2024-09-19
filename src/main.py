@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
     df['release_date'] = pd.to_datetime(df['release_date'], errors='coerce')  # Asegurar que release_date esté en formato datetime
     
     # Cargar el modelo KNN (o el que estés usando)
-    with open('../reports/recommendation_model.pkl', 'rb') as f:
+    with open('./reports/recommendation_model.pkl', 'rb') as f:
         data = pickle.load(f)
         model_knn = data['knn']
         imputer = data['imputer']
