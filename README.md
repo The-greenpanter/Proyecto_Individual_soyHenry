@@ -3,7 +3,7 @@
 
 ## Video
 
-[![VExplicacion del proyecto](https://img.youtube.com/vi/CxHV2zSoNKE/0.jpg)](https://www.youtube.com/watch?v=CxHV2zSoNKE)
+[![VExplicacion del proyecto]([https://img.youtube.com/vi/CxHV2zSoNKE/0.jpg](https://i9.ytimg.com/vi/cSlxdvYirgs/mqdefault.jpg?sqp=CKST9bsG-oaymwEmCMACELQB8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFUgYShlMA8=&rs=AOn4CLBUtTBBhJSN5f0W_m5YIJSGEAuKgQ))]([https://www.youtube.com/watch?v=CxHV2zSoNKE](https://youtu.be/cSlxdvYirgs))
 
 ## Deploy render
 [Ver el deploy en Render](https://proyecto-individual-soyhenry.onrender.com/docs)
